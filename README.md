@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  A lightweight, privacy-focused open-source desktop toolbox to <b>compress</b>, <b>merge</b>, and manipulate PDFs locally — with zero cloud dependencies.
+  A lightweight, privacy-focused open-source desktop toolbox to <b>compress</b>, <b>merge</b>, and <b>rearrange & delete pages</b> from PDFs locally — with zero cloud dependencies.
 </p>
 
 ---
@@ -35,6 +35,15 @@
 - **Results panel** — shows files merged, total pages, and output size
 - **Quick preview prompt** — open the merged PDF directly after creation
 
+### 📑 Rearrange & Delete Pages
+
+- **Interactive visual page grid** — view every page with live rendered thumbnails
+- **Move pages with ease** — move left (◀), right (▶), to first (⏮), or to last (⏭)
+- **Delete unwanted pages** — remove any page with a single click (✕)
+- **Safe & reversible** — "Reset Order" restores the original page sequence anytime
+- **Live page counter** — displays retained and deleted page counts in real time
+- **Quick preview prompt** — launch your newly organized PDF in the default viewer immediately
+
 ### 🛡️ Privacy & Performance
 
 - **Non-destructive** — originals are never modified
@@ -45,26 +54,25 @@
 ## 📸 Preview
 
 ```
-┌─────────────────────────────────────────────┐
-│  ⊛  OpenSource PDF Toolbox                  │
-│     Compress & Merge PDFs · Offline         │
-├─────────────────────────────────────────────┤
-│  [ ⚡ Compress ]   [ 🔗 Merge ]             │
-├─────────────────────────────────────────────┤
-│  ┌─────────────────────────────────────┐    │
-│  │  ⬆  Drop PDF files here · Browse   │    │
-│  └─────────────────────────────────────┘    │
-│                                             │
-│  Compression Level     Output Folder        │
-│  🔵 Low — Lossless    ● Same as source     │
-│  🟣 Medium — Balanced ○ Choose folder…     │
-│  🔴 High — Maximum                         │
-│                                             │
-│  [ ⚡ Compress PDF ]  ████████░░░  80%      │
-│                                             │
-│  ORIGINAL   COMPRESSED   SAVED   REDUCTION  │
-│   4.2 MB      1.1 MB    3.1 MB    73.8%    │
-└─────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│  ⊛  OpenSource PDF Toolbox                                  │
+│     Compress, Merge & Reorder PDFs · Offline                │
+├─────────────────────────────────────────────────────────────┤
+│  [ ⚡ Compress ]   [ 🔗 Merge ]   [ 📑 Rearrange & Delete ]  │
+├─────────────────────────────────────────────────────────────┤
+│  📄 sample_document.pdf  ·  12 pages  ·  2.4 MB             │
+│                                                             │
+│  [⏮ First] [◀ Left] [▶ Right] [⏭ Last] [✕ Delete] [↺ Reset] │
+│                                                             │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐     │
+│  │ Page 1   │  │ Page 2   │  │ Page 3   │  │ Page 4   │     │
+│  │  [Thumb] │  │  [Thumb] │  │  [Thumb] │  │  [Thumb] │     │
+│  │ ◀  ✕  ▶  │  │ ◀  ✕  ▶  │  │ ◀  ✕  ▶  │  │ ◀  ✕  ▶  │     │
+│  └──────────┘  └──────────┘  └──────────┘  └──────────┘     │
+│                                                             │
+│  Save As: [ document_modified.pdf ]            [ Browse… ]  │
+│  [ 📑 Save Rearranged PDF ]   ████████░░░  80%              │
+└─────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -113,8 +121,9 @@ python pdf_tool_main.py
 
 | Package                                                 | Version | Purpose                                                            |
 | ------------------------------------------------------- | ------- | ------------------------------------------------------------------ |
-| [`pikepdf`](https://pikepdf.readthedocs.io/)            | ≥ 8.0   | PDF parsing, stream compression, object deduplication, and merging |
-| [`Pillow`](https://pillow.readthedocs.io/)              | ≥ 10.0  | Image extraction and JPEG re-encoding                              |
+| [`pikepdf`](https://pikepdf.readthedocs.io/)            | ≥ 8.0   | PDF parsing, stream compression, object deduplication, and page manipulation |
+| [`Pillow`](https://pillow.readthedocs.io/)              | ≥ 10.0  | Image extraction, thumbnail generation, and JPEG re-encoding       |
+| [`PyMuPDF`](https://pymupdf.readthedocs.io/)            | ≥ 1.23  | High-speed PDF page thumbnail rendering for the visual organizer   |
 | [`tkinterdnd2`](https://github.com/pmgagne/tkinterdnd2) | ≥ 0.3   | Drag-and-drop support (optional)                                   |
 
 > `tkinter` is part of Python's standard library and requires no separate install.
@@ -131,16 +140,18 @@ opensource-pdf-toolbox/
 │
 ├── core/                         # Core logic & algorithms (headless, zero GUI)
 │   ├── __init__.py               # Core API exports
-│   ├── dependencies.py           # Dependency checks (pikepdf, Pillow, TkinterDnD)
+│   ├── dependencies.py           # Dependency checks (pikepdf, Pillow, PyMuPDF, TkinterDnD)
 │   ├── utils.py                  # Format utilities, open_path helper
 │   ├── compress.py               # Compression presets & processing
-│   └── merge.py                  # Multi-file PDF merger
+│   ├── merge.py                  # Multi-file PDF merger
+│   └── rearrange.py              # Page reordering, deletion, and thumbnail engine
 │
 ├── ui/                           # User Interface components
 │   ├── __init__.py               # UI module export
 │   ├── theme.py                  # Colors, fonts, reusable widget factories
 │   ├── compress_tab.py           # Compression tab UI & worker thread
 │   ├── merge_tab.py              # Merge tab UI & worker thread
+│   ├── rearrange_tab.py          # Rearrange & Delete Pages visual grid UI
 │   └── app.py                    # App shell, header, and tab navigation
 │
 ├── requirements.txt              # Python dependencies
@@ -166,16 +177,16 @@ Please make sure your code follows the existing style and modular architecture.
 
 - [ ] macOS/Linux `.sh` launcher script
 - [ ] Split PDF tab (extract page ranges or split into individual pages)
+- [ ] Rotate individual or all pages (90° / 180° / 270°)
 - [ ] Metadata viewer & editor (title, author, creation date)
 - [ ] PDF watermark / page number stamp tool
-- [ ] PDF/A compliance export mode
 - [ ] Dark / Light theme toggle
 
 ---
 
 ## 🐛 Reporting Issues
 
-Found a bug? Please [open an issue](https://github.com/your-username/opensource-pdf-toolbox/issues) and include:
+Found a bug? Please [open an issue](https://github.com/sreeragrnandan/opensource-pdf-toolbox/issues) and include:
 
 - Your OS and Python version (`python --version`)
 - The error message or screenshot
@@ -192,6 +203,7 @@ Distributed under the MIT License. See [`LICENSE`](./LICENSE) for more informati
 ## 🙏 Acknowledgements
 
 - [pikepdf](https://pikepdf.readthedocs.io/) — PDF manipulation engine
+- [PyMuPDF](https://pymupdf.readthedocs.io/) — High-speed PDF page rendering engine
 - [Pillow](https://pillow.readthedocs.io/) — image processing
 - [tkinterdnd2](https://github.com/pmgagne/tkinterdnd2) — drag-and-drop for Tkinter
 

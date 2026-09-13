@@ -14,6 +14,7 @@ from ui.theme import (
 )
 from ui.compress_tab import CompressTab
 from ui.merge_tab import MergeTab
+from ui.rearrange_tab import RearrangeTab
 
 
 class PDFToolsApp:
@@ -34,9 +35,9 @@ class PDFToolsApp:
     def _setup_window(self) -> None:
         self.root.title('OpenSource PDF Toolbox')
         self.root.configure(bg=BG)
-        W, H = 840, 740
+        W, H = 880, 760
         self.root.geometry(f'{W}x{H}')
-        self.root.minsize(680, 600)
+        self.root.minsize(720, 620)
         self.root.update_idletasks()
         sw = self.root.winfo_screenwidth()
         sh = self.root.winfo_screenheight()
@@ -49,19 +50,22 @@ class PDFToolsApp:
         self._build_tab_bar()
 
         # Allocate one Frame per tab; only the active one is packed
-        self._compress_frame = tk.Frame(self.root, bg=BG)
-        self._merge_frame    = tk.Frame(self.root, bg=BG)
+        self._compress_frame  = tk.Frame(self.root, bg=BG)
+        self._merge_frame     = tk.Frame(self.root, bg=BG)
+        self._rearrange_frame = tk.Frame(self.root, bg=BG)
 
         # Instantiate tab controllers
-        self._compress_tab = CompressTab(self._compress_frame, self.root)
-        self._merge_tab    = MergeTab(self._merge_frame,    self.root)
+        self._compress_tab  = CompressTab(self._compress_frame,   self.root)
+        self._merge_tab     = MergeTab(self._merge_frame,         self.root)
+        self._rearrange_tab = RearrangeTab(self._rearrange_frame, self.root)
 
         # Show Compress tab by default
         self._compress_frame.pack(fill='both', expand=True)
 
-        # Wire up DnD on the compress drop zone (needs root to be fully set up)
+        # Wire up DnD on drop zones (needs root to be fully set up)
         if HAS_DND:
             self._compress_tab._setup_dnd()
+            self._rearrange_tab.setup_dnd()
 
     # ── Header ────────────────────────────────────────────────────────────────
 
@@ -76,7 +80,7 @@ class PDFToolsApp:
         col.pack(side='left')
         tk.Label(col, text='OpenSource PDF Toolbox',
                  font=(FF, 18, 'bold'), bg=BG, fg=TXT).pack(anchor='w')
-        tk.Label(col, text='Compress & Merge PDFs  ·  Offline  ·  Your files never leave your machine',
+        tk.Label(col, text='Compress, Merge & Reorder PDFs  ·  Offline  ·  Your files never leave your machine',
                  font=(FF, 9), bg=BG, fg=TXT3).pack(anchor='w')
 
         if MISSING_LIBS:
@@ -90,11 +94,16 @@ class PDFToolsApp:
         bar.pack(fill='x', padx=28, pady=(14, 0))
 
         self._tab_btns: dict = {}
-        for key, label in [('compress', '⚡  Compress'), ('merge', '🔗  Merge')]:
+        tabs = [
+            ('compress', '⚡  Compress'),
+            ('merge', '🔗  Merge'),
+            ('rearrange', '📑  Rearrange & Delete Pages'),
+        ]
+        for key, label_text in tabs:
             btn = tk.Button(
-                bar, text=label,
-                font=(FF, 11, 'bold'), bd=0, relief='flat',
-                cursor='hand2', padx=20, pady=8,
+                bar, text=label_text,
+                font=(FF, 10, 'bold'), bd=0, relief='flat',
+                cursor='hand2', padx=16, pady=8,
                 command=lambda k=key: self._switch_tab(k),
             )
             btn.pack(side='left', padx=(0, 4))
@@ -117,9 +126,16 @@ class PDFToolsApp:
             return
         self._active_tab = tab
         self._refresh_tab_styles()
+
+        # Hide all frames
+        self._compress_frame.pack_forget()
+        self._merge_frame.pack_forget()
+        self._rearrange_frame.pack_forget()
+
+        # Show selected frame
         if tab == 'compress':
-            self._merge_frame.pack_forget()
             self._compress_frame.pack(fill='both', expand=True)
-        else:
-            self._compress_frame.pack_forget()
+        elif tab == 'merge':
             self._merge_frame.pack(fill='both', expand=True)
+        elif tab == 'rearrange':
+            self._rearrange_frame.pack(fill='both', expand=True)

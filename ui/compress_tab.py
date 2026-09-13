@@ -108,8 +108,11 @@ class CompressTab:
                           font=(FF, 9), fill=TXT3, anchor='center')
 
     def _setup_dnd(self) -> None:
-        self._dz.drop_target_register(DND_FILES)
-        self._dz.dnd_bind('<<Drop>>', self._on_drop)
+        try:
+            self._dz.drop_target_register(DND_FILES)
+            self._dz.dnd_bind('<<Drop>>', self._on_drop)
+        except Exception:
+            pass
 
     def _on_drop(self, event) -> None:
         parts = re.findall(r'\{([^}]+)\}|(\S+)', event.data)

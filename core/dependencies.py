@@ -36,3 +36,12 @@ except ImportError:
     TkinterDnD = None       # type: ignore[assignment,misc]
     DND_FILES  = None       # type: ignore[assignment]
     HAS_DND = False
+
+# ── PyMuPDF / fitz (optional — page thumbnail rendering) ─────────────────────
+try:
+    import fitz
+    HAS_FITZ = True
+except ImportError:
+    fitz = None             # type: ignore[assignment]
+    HAS_FITZ = False
+
