@@ -210,4 +210,4 @@ Distributed under the MIT License. See [`LICENSE`](./LICENSE) for more informati
 
 ---
 
-<p align="center">Made with ❤️ · MIT Licensed · Open Source</p>
+<p align="center">MIT Licensed · Open Source</p>
