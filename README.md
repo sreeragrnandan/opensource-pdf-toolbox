@@ -38,7 +38,8 @@
 ### 📑 Rearrange & Delete Pages
 
 - **Interactive visual page grid** — view every page with live rendered thumbnails
-- **Move pages with ease** — move left (◀), right (▶), to first (⏮), or to last (⏭)
+- **Mouse drag & drop reordering** — click and drag any page card with your mouse to seamlessly drop it into a new position
+- **Move controls** — precision move left (◀), right (▶), to first (⏮), or to last (⏭)
 - **Delete unwanted pages** — remove any page with a single click (✕)
 - **Safe & reversible** — "Reset Order" restores the original page sequence anytime
 - **Live page counter** — displays retained and deleted page counts in real time

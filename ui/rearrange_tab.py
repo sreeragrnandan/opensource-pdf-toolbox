@@ -68,6 +68,11 @@ class RearrangeTab:
         # Card widgets: list of dicts with widget references
         self._card_widgets: List[dict] = []
 
+        # Mouse Drag & Drop reordering state
+        self._drag_data: dict = {'pos': None, 'start_x': 0, 'start_y': 0, 'active': False}
+        self._drag_avatar: Optional[tk.Toplevel] = None
+        self._drag_target_idx: Optional[int] = None
+
         self._progress = 0.0
         self._cols = 4
 
@@ -164,6 +169,11 @@ class RearrangeTab:
 
         self._btn_reset = tb_btn('↺  Reset Order', self._reset_order)
         self._btn_reset.pack(side='left')
+
+        tk.Label(
+            self._tb_outer, text='·  Drag cards to reorder',
+            font=(FF, 9), bg=BG, fg=TXT3,
+        ).pack(side='left', padx=(10, 0))
 
         # Status badge on the right
         self._counter_label = tk.Label(
@@ -488,14 +498,165 @@ class RearrangeTab:
             'btn_r': btn_r,
         }
 
-        # Click on card or any child to select
-        def on_click(event, p=pos):
-            self._select_page(p)
-
+        # Bind mouse click selection and drag-and-drop reordering
         for widget in (card_frame, hdr, pos_lbl, orig_lbl, thumb_frame, thumb_lbl, ftr):
-            widget.bind('<Button-1>', on_click)
+            widget.bind('<ButtonPress-1>', lambda e, p=pos: self._on_card_press(e, p))
+            widget.bind('<B1-Motion>', self._on_card_motion)
+            widget.bind('<ButtonRelease-1>', self._on_card_release)
 
         return card_info
+
+    # ── Mouse Drag & Drop Reordering ─────────────────────────────────────────
+
+    def _on_card_press(self, event, pos: int) -> None:
+        self._select_page(pos)
+        self._drag_data = {
+            'pos': pos,
+            'start_x': event.x_root,
+            'start_y': event.y_root,
+            'active': False,
+        }
+        self._drag_target_idx = None
+
+    def _on_card_motion(self, event) -> None:
+        if self._drag_data['pos'] is None:
+            return
+
+        dx = abs(event.x_root - self._drag_data['start_x'])
+        dy = abs(event.y_root - self._drag_data['start_y'])
+
+        if not self._drag_data['active']:
+            if dx > 6 or dy > 6:
+                self._drag_data['active'] = True
+                src_pos = self._drag_data['pos']
+                self._create_drag_avatar(src_pos, event.x_root, event.y_root)
+                self._root.config(cursor='fleur')
+                # Visual cue on the dragged card
+                if 0 <= src_pos < len(self._card_widgets):
+                    self._card_widgets[src_pos]['frame'].config(
+                        highlightthickness=2, highlightbackground=TXT3
+                    )
+        else:
+            # Move floating avatar
+            if self._drag_avatar and self._drag_avatar.winfo_exists():
+                self._drag_avatar.geometry(f'+{event.x_root + 15}+{event.y_root + 15}')
+
+            # Auto-scroll canvas if dragging near top or bottom edges
+            try:
+                c_y = self._canvas.winfo_rooty()
+                c_h = self._canvas.winfo_height()
+                if event.y_root < c_y + 40:
+                    self._canvas.yview_scroll(-1, 'units')
+                elif event.y_root > c_y + c_h - 40:
+                    self._canvas.yview_scroll(1, 'units')
+            except Exception:
+                pass
+
+            # Detect card target under cursor
+            target = self._find_card_at_pos(event.x_root, event.y_root)
+            if target != self._drag_target_idx:
+                if (
+                    self._drag_target_idx is not None
+                    and self._drag_target_idx != self._drag_data['pos']
+                ):
+                    self._reset_card_style(self._drag_target_idx)
+                self._drag_target_idx = target
+                if target is not None and target != self._drag_data['pos']:
+                    self._highlight_drop_target(target)
+
+    def _on_card_release(self, event) -> None:
+        self._root.config(cursor='')
+        self._destroy_drag_avatar()
+
+        if self._drag_data['active']:
+            src = self._drag_data['pos']
+            dst = self._drag_target_idx
+
+            if src is not None and dst is not None and src != dst:
+                item = self.page_order.pop(src)
+                self.page_order.insert(dst, item)
+                self.selected_idx = dst
+                self._rebuild_cards()
+            else:
+                self._update_selection_highlight()
+                if self._drag_target_idx is not None:
+                    self._reset_card_style(self._drag_target_idx)
+
+        self._drag_data = {'pos': None, 'start_x': 0, 'start_y': 0, 'active': False}
+        self._drag_target_idx = None
+
+    def _create_drag_avatar(self, pos: int, x_root: int, y_root: int) -> None:
+        self._destroy_drag_avatar()
+        if pos < 0 or pos >= len(self.page_order):
+            return
+
+        orig_idx = self.page_order[pos]
+        avatar = tk.Toplevel(self._root)
+        avatar.overrideredirect(True)
+        try:
+            avatar.attributes('-alpha', 0.88)
+            avatar.attributes('-topmost', True)
+        except Exception:
+            pass
+
+        f = tk.Frame(avatar, bg=CARD, highlightthickness=2, highlightbackground=ACCENT)
+        f.pack(fill='both', expand=True)
+
+        tk.Label(
+            f, text=f'Moving Page {pos + 1} (Orig #{orig_idx + 1})',
+            font=(FF, 9, 'bold'), bg=CARD, fg='white', padx=8, pady=4,
+        ).pack()
+
+        if orig_idx in self._thumb_cache:
+            photo = self._thumb_cache[orig_idx]
+            img_lbl = tk.Label(f, image=photo, bg=SURFACE)
+            img_lbl.image = photo
+            img_lbl.pack(padx=6, pady=(0, 6))
+
+        avatar.geometry(f'+{x_root + 15}+{y_root + 15}')
+        self._drag_avatar = avatar
+
+    def _destroy_drag_avatar(self) -> None:
+        if self._drag_avatar:
+            try:
+                self._drag_avatar.destroy()
+            except Exception:
+                pass
+            self._drag_avatar = None
+
+    def _find_card_at_pos(self, x_root: int, y_root: int) -> Optional[int]:
+        if not self._card_widgets or not self._inner_grid.winfo_ismapped():
+            return None
+        try:
+            gx = x_root - self._inner_grid.winfo_rootx()
+            gy = y_root - self._inner_grid.winfo_rooty()
+        except Exception:
+            return None
+
+        for idx, card_info in enumerate(self._card_widgets):
+            f = card_info['frame']
+            fx, fy = f.winfo_x(), f.winfo_y()
+            fw, fh = f.winfo_width(), f.winfo_height()
+            if fx <= gx <= fx + fw and fy <= gy <= fy + fh:
+                return idx
+        return None
+
+    def _highlight_drop_target(self, target_idx: int) -> None:
+        if 0 <= target_idx < len(self._card_widgets):
+            c_info = self._card_widgets[target_idx]
+            c_info['frame'].config(highlightthickness=3, highlightbackground=SUCCESS)
+            c_info['pos_lbl'].config(text='➜ Move here', fg=SUCCESS)
+
+    def _reset_card_style(self, idx: int) -> None:
+        if 0 <= idx < len(self._card_widgets):
+            c_info = self._card_widgets[idx]
+            is_sel = (idx == self.selected_idx)
+            bw = 2 if is_sel else 1
+            bc = ACCENT if is_sel else BORDER
+            c_info['frame'].config(highlightthickness=bw, highlightbackground=bc)
+            c_info['pos_lbl'].config(text=f'Page {idx + 1}', fg=TXT)
+
+    # ── Cards Layout & Selection ─────────────────────────────────────────────
 
     def _relayout_cards(self) -> None:
         cols = self._cols
@@ -517,6 +678,7 @@ class RearrangeTab:
         if 0 <= pos < len(self.page_order):
             self.selected_idx = pos
             self._update_selection_highlight()
+
 
     # ── Page Reordering & Deletion Actions ───────────────────────────────────
 

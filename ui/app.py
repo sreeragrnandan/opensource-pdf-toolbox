@@ -80,7 +80,7 @@ class PDFToolsApp:
         col.pack(side='left')
         tk.Label(col, text='OpenSource PDF Toolbox',
                  font=(FF, 18, 'bold'), bg=BG, fg=TXT).pack(anchor='w')
-        tk.Label(col, text='Compress, Merge & Reorder PDFs  ·  Offline  ·  Your files never leave your machine',
+        tk.Label(col, text='Compress, Merge, Rearrange & Delete Pages  ·  Offline  ·  Your files never leave your machine',
                  font=(FF, 9), bg=BG, fg=TXT3).pack(anchor='w')
 
         if MISSING_LIBS:
