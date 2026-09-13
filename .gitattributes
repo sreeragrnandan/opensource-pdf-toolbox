@@ -1,0 +1,5 @@
+# Preserve LF line endings on shell scripts
+*.sh text eol=lf
+
+# Preserve CRLF line endings on Windows batch scripts
+*.bat text eol=crlf

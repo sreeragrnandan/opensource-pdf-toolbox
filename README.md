@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  A lightweight, privacy-focused open-source desktop toolbox to <b>compress</b>, <b>merge</b>, and <b>rearrange & delete pages</b> from PDFs locally — with zero cloud dependencies.
+  A lightweight, privacy-focused open-source desktop toolbox to <b>compress</b>, <b>merge</b>, and <b>rearrange & delete pages</b> from PDFs locally with zero cloud dependencies.
 </p>
 
 ---
@@ -97,18 +97,19 @@ pip install -r requirements.txt
 python pdf_tool_main.py
 ```
 
-**Windows users:** double-click `Launch PDF Tool.bat` — no terminal needed.
+- **Windows users:** double-click `Launch PDF Tool Windows.bat` — no terminal needed.
+- **macOS & Linux users:** run `./Launch\ PDF\ Tool Linux Mac.sh` (or `bash "Launch PDF Tool Linux Mac.sh"`).
 
 ---
 
 ## 📦 Dependencies
 
-| Package                                                 | Version | Purpose                                                            |
-| ------------------------------------------------------- | ------- | ------------------------------------------------------------------ |
+| Package                                                 | Version | Purpose                                                                      |
+| ------------------------------------------------------- | ------- | ---------------------------------------------------------------------------- |
 | [`pikepdf`](https://pikepdf.readthedocs.io/)            | ≥ 8.0   | PDF parsing, stream compression, object deduplication, and page manipulation |
-| [`Pillow`](https://pillow.readthedocs.io/)              | ≥ 10.0  | Image extraction, thumbnail generation, and JPEG re-encoding       |
-| [`PyMuPDF`](https://pymupdf.readthedocs.io/)            | ≥ 1.23  | High-speed PDF page thumbnail rendering for the visual organizer   |
-| [`tkinterdnd2`](https://github.com/pmgagne/tkinterdnd2) | ≥ 0.3   | Drag-and-drop support (optional)                                   |
+| [`Pillow`](https://pillow.readthedocs.io/)              | ≥ 10.0  | Image extraction, thumbnail generation, and JPEG re-encoding                 |
+| [`PyMuPDF`](https://pymupdf.readthedocs.io/)            | ≥ 1.23  | High-speed PDF page thumbnail rendering for the visual organizer             |
+| [`tkinterdnd2`](https://github.com/pmgagne/tkinterdnd2) | ≥ 0.3   | Drag-and-drop support (optional)                                             |
 
 > `tkinter` is part of Python's standard library and requires no separate install.
 
@@ -120,7 +121,8 @@ python pdf_tool_main.py
 opensource-pdf-toolbox/
 │
 ├── pdf_tool_main.py              # Main entry point (Tkinter bootstrapping)
-├── Launch PDF Tool.bat           # Windows one-click launcher
+├── Launch PDF Tool Windows.bat   # Windows one-click launcher
+├── Launch PDF Tool Linux Mac.sh    # macOS & Linux launcher script
 │
 ├── core/                         # Core logic & algorithms (headless, zero GUI)
 │   ├── __init__.py               # Core API exports
@@ -159,7 +161,6 @@ Please make sure your code follows the existing style and modular architecture.
 
 ### Ideas for contributions
 
-- [ ] macOS/Linux `.sh` launcher script
 - [ ] Split PDF tab (extract page ranges or split into individual pages)
 - [ ] Rotate individual or all pages (90° / 180° / 270°)
 - [ ] Metadata viewer & editor (title, author, creation date)
@@ -205,4 +206,4 @@ If you find this project helpful and want to support its development, you can bu
 
 ---
 
-<p align="center">Made with ❤️ · MIT Licensed · Open Source</p>
+<p align="center">MIT Licensed · Open Source</p>
