@@ -6,6 +6,7 @@
   <img src="https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey" alt="Platform"/>
   <img src="https://img.shields.io/badge/GUI-Tkinter-orange" alt="Tkinter"/>
   <img src="https://img.shields.io/badge/status-active-brightgreen" alt="Status"/>
+  <a href="https://buymeacoffee.com/sreeragrnandan" target="_blank"><img src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?logo=buy-me-a-coffee&logoColor=black" alt="Buy Me A Coffee"/></a>
 </p>
 
 <p align="center">
@@ -54,27 +55,9 @@
 
 ## 📸 Preview
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│  ⊛  OpenSource PDF Toolbox                                  │
-│     Compress, Merge & Reorder PDFs · Offline                │
-├─────────────────────────────────────────────────────────────┤
-│  [ ⚡ Compress ]   [ 🔗 Merge ]   [ 📑 Rearrange & Delete ]  │
-├─────────────────────────────────────────────────────────────┤
-│  📄 sample_document.pdf  ·  12 pages  ·  2.4 MB             │
-│                                                             │
-│  [⏮ First] [◀ Left] [▶ Right] [⏭ Last] [✕ Delete] [↺ Reset] │
-│                                                             │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐     │
-│  │ Page 1   │  │ Page 2   │  │ Page 3   │  │ Page 4   │     │
-│  │  [Thumb] │  │  [Thumb] │  │  [Thumb] │  │  [Thumb] │     │
-│  │ ◀  ✕  ▶  │  │ ◀  ✕  ▶  │  │ ◀  ✕  ▶  │  │ ◀  ✕  ▶  │     │
-│  └──────────┘  └──────────┘  └──────────┘  └──────────┘     │
-│                                                             │
-│  Save As: [ document_modified.pdf ]            [ Browse… ]  │
-│  [ 📑 Save Rearranged PDF ]   ████████░░░  80%              │
-└─────────────────────────────────────────────────────────────┘
-```
+<p align="center">
+  <img src="./assets/preview.png" alt="OpenSource PDF Toolbox Preview" width="100%"/>
+</p>
 
 ---
 
@@ -210,4 +193,16 @@ Distributed under the MIT License. See [`LICENSE`](./LICENSE) for more informati
 
 ---
 
-<p align="center">MIT Licensed · Open Source</p>
+## ☕ Support
+
+If you find this project helpful and want to support its development, you can buy me a coffee!
+
+<p align="left">
+  <a href="https://buymeacoffee.com/sreeragrnandan" target="_blank">
+    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" width="180"/>
+  </a>
+</p>
+
+---
+
+<p align="center">Made with ❤️ · MIT Licensed · Open Source</p>
