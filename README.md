@@ -17,6 +17,7 @@
 ## ✨ Features
 
 ### ⚡ Compress
+
 - **3 compression presets** — choose between lossless, balanced, or maximum compression
 - **Batch processing** — compress multiple PDFs in one go
 - **Drag & drop** — drop files directly onto the window
@@ -26,6 +27,7 @@
 - **Quick preview prompt** — open the compressed PDF immediately in your default viewer
 
 ### 🔗 Merge
+
 - **Combine any number of PDFs** into a single output file
 - **Reorder files** using ▲ ▼ buttons before merging
 - **Double-click to remove** a file from the list
@@ -34,6 +36,7 @@
 - **Quick preview prompt** — open the merged PDF directly after creation
 
 ### 🛡️ Privacy & Performance
+
 - **Non-destructive** — originals are never modified
 - **100% Offline** — your files never leave your local machine
 
@@ -68,11 +71,11 @@
 
 ## 🗂️ Compression Levels
 
-| Level | Technique | Quality Impact |
-|---|---|---|
-| **🔵 Low — Lossless** | Stream compression + object deduplication | None — pixel-perfect |
-| **🟣 Medium — Balanced** | Above + image resampling to ~150 DPI | Minimal — excellent for documents |
-| **🔴 High — Maximum** | Above + images compressed to ~96 DPI (JPEG 65) | Slight softening on photos |
+| Level                    | Technique                                      | Quality Impact                    |
+| ------------------------ | ---------------------------------------------- | --------------------------------- |
+| **🔵 Low — Lossless**    | Stream compression + object deduplication      | None — pixel-perfect              |
+| **🟣 Medium — Balanced** | Above + image resampling to ~150 DPI           | Minimal — excellent for documents |
+| **🔴 High — Maximum**    | Above + images compressed to ~96 DPI (JPEG 65) | Slight softening on photos        |
 
 > **Tip:** For text-heavy PDFs (reports, invoices, contracts), even **High** mode looks identical — image quality only matters for photo-heavy documents.
 
@@ -89,7 +92,7 @@
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/your-username/opensource-pdf-toolbox.git
+git clone https://github.com/sreeragrnandan/opensource-pdf-toolbox.git
 cd opensource-pdf-toolbox
 
 # 2. Install dependencies
@@ -108,11 +111,11 @@ python pdf_tool_main.py
 
 ## 📦 Dependencies
 
-| Package | Version | Purpose |
-|---|---|---|
-| [`pikepdf`](https://pikepdf.readthedocs.io/) | ≥ 8.0 | PDF parsing, stream compression, object deduplication, and merging |
-| [`Pillow`](https://pillow.readthedocs.io/) | ≥ 10.0 | Image extraction and JPEG re-encoding |
-| [`tkinterdnd2`](https://github.com/pmgagne/tkinterdnd2) | ≥ 0.3 | Drag-and-drop support (optional) |
+| Package                                                 | Version | Purpose                                                            |
+| ------------------------------------------------------- | ------- | ------------------------------------------------------------------ |
+| [`pikepdf`](https://pikepdf.readthedocs.io/)            | ≥ 8.0   | PDF parsing, stream compression, object deduplication, and merging |
+| [`Pillow`](https://pillow.readthedocs.io/)              | ≥ 10.0  | Image extraction and JPEG re-encoding                              |
+| [`tkinterdnd2`](https://github.com/pmgagne/tkinterdnd2) | ≥ 0.3   | Drag-and-drop support (optional)                                   |
 
 > `tkinter` is part of Python's standard library and requires no separate install.
 
