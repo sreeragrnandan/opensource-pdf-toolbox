@@ -5,6 +5,7 @@ Delegates all tab content to CompressTab and MergeTab.
 """
 
 import tkinter as tk
+import webbrowser
 
 from core import HAS_DND, MISSING_LIBS
 from core.dependencies import TkinterDnD
@@ -83,9 +84,39 @@ class PDFToolsApp:
         tk.Label(col, text='Compress, Merge, Rearrange & Delete Pages  ·  Offline  ·  Your files never leave your machine',
                  font=(FF, 9), bg=BG, fg=TXT3).pack(anchor='w')
 
+        # Buy Me a Coffee button (far right)
+        coffee_btn = tk.Button(
+            bar,
+            text='☕  Buy me a coffee',
+            font=(FF, 9, 'bold'),
+            bg='#FFDD00', fg='#1E1E1E',
+            activebackground='#FFE54D', activeforeground='#000000',
+            bd=0, relief='flat', cursor='hand2',
+            padx=12, pady=6,
+            command=lambda: webbrowser.open('https://buymeacoffee.com/sreeragrnandan'),
+        )
+        coffee_btn.pack(side='right', pady=4)
+        coffee_btn.bind('<Enter>', lambda _: coffee_btn.config(bg='#FFE54D'))
+        coffee_btn.bind('<Leave>', lambda _: coffee_btn.config(bg='#FFDD00'))
+
+        # GitHub link button (to the left of BMC)
+        github_btn = tk.Button(
+            bar,
+            text='⭐  GitHub',
+            font=(FF, 9, 'bold'),
+            bg='#24292E', fg='#FFFFFF',
+            activebackground='#2F363D', activeforeground='#FFFFFF',
+            bd=0, relief='flat', cursor='hand2',
+            padx=12, pady=6,
+            command=lambda: webbrowser.open('https://github.com/sreeragrnandan/opensource-pdf-toolbox'),
+        )
+        github_btn.pack(side='right', padx=(0, 8), pady=4)
+        github_btn.bind('<Enter>', lambda _: github_btn.config(bg='#2F363D'))
+        github_btn.bind('<Leave>', lambda _: github_btn.config(bg='#24292E'))
+
         if MISSING_LIBS:
             warn = f'⚠  Missing: {", ".join(MISSING_LIBS)}   →   pip install {" ".join(MISSING_LIBS)}'
-            tk.Label(bar, text=warn, font=(FF, 9), bg=BG, fg='#F59E0B').pack(side='right')
+            tk.Label(bar, text=warn, font=(FF, 9), bg=BG, fg='#F59E0B').pack(side='right', padx=(0, 14))
 
     # ── Tab bar ───────────────────────────────────────────────────────────────
 
