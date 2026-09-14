@@ -71,52 +71,75 @@ class PDFToolsApp:
     # ── Header ────────────────────────────────────────────────────────────────
 
     def _build_header(self) -> None:
-        bar = tk.Frame(self.root, bg=BG)
-        bar.pack(fill='x', padx=28, pady=(20, 0))
+        header = tk.Frame(self.root, bg=BG)
+        header.pack(fill='x', padx=28, pady=(20, 0))
 
-        tk.Label(bar, text='⊛', font=(FF, 26, 'bold'), bg=BG, fg=ACCENT).pack(
+        # ── Row 1: icon + title + buttons ────────────────────────────────────
+        row1 = tk.Frame(header, bg=BG)
+        row1.pack(fill='x')
+
+        tk.Label(row1, text='⊛', font=(FF, 22, 'bold'), bg=BG, fg=ACCENT).pack(
             side='left', padx=(0, 10))
 
-        col = tk.Frame(bar, bg=BG)
-        col.pack(side='left')
-        tk.Label(col, text='OpenSource PDF Toolbox',
-                 font=(FF, 18, 'bold'), bg=BG, fg=TXT).pack(anchor='w')
-        tk.Label(col, text='Compress, Merge, Rearrange & Delete Pages  ·  Offline  ·  Your files never leave your machine',
-                 font=(FF, 9), bg=BG, fg=TXT3).pack(anchor='w')
+        tk.Label(row1, text='OpenSource PDF Toolbox',
+                 font=(FF, 16, 'bold'), bg=BG, fg=TXT).pack(side='left', anchor='w')
 
-        # Buy Me a Coffee button (far right)
+        # Buy Me a Coffee (far right)
         coffee_btn = tk.Button(
-            bar,
+            row1,
             text='☕  Buy me a coffee',
             font=(FF, 9, 'bold'),
             bg='#FFDD00', fg='#1E1E1E',
             activebackground='#FFE54D', activeforeground='#000000',
             bd=0, relief='flat', cursor='hand2',
-            padx=12, pady=6,
+            padx=10, pady=5,
             command=lambda: webbrowser.open('https://buymeacoffee.com/sreeragrnandan'),
         )
-        coffee_btn.pack(side='right', pady=4)
+        coffee_btn.pack(side='right', pady=2)
         coffee_btn.bind('<Enter>', lambda _: coffee_btn.config(bg='#FFE54D'))
         coffee_btn.bind('<Leave>', lambda _: coffee_btn.config(bg='#FFDD00'))
 
-        # GitHub link button (to the left of BMC)
+        # GitHub
         github_btn = tk.Button(
-            bar,
+            row1,
             text='⭐  GitHub',
             font=(FF, 9, 'bold'),
             bg='#24292E', fg='#FFFFFF',
             activebackground='#2F363D', activeforeground='#FFFFFF',
             bd=0, relief='flat', cursor='hand2',
-            padx=12, pady=6,
+            padx=10, pady=5,
             command=lambda: webbrowser.open('https://github.com/sreeragrnandan/opensource-pdf-toolbox'),
         )
-        github_btn.pack(side='right', padx=(0, 8), pady=4)
+        github_btn.pack(side='right', padx=(0, 8), pady=2)
         github_btn.bind('<Enter>', lambda _: github_btn.config(bg='#2F363D'))
         github_btn.bind('<Leave>', lambda _: github_btn.config(bg='#24292E'))
 
+        # LinkedIn
+        linkedin_btn = tk.Button(
+            row1,
+            text='in  LinkedIn',
+            font=(FF, 9, 'bold'),
+            bg='#0A66C2', fg='#FFFFFF',
+            activebackground='#0958A8', activeforeground='#FFFFFF',
+            bd=0, relief='flat', cursor='hand2',
+            padx=10, pady=5,
+            command=lambda: webbrowser.open('https://www.linkedin.com/in/srnofficial'),
+        )
+        linkedin_btn.pack(side='right', padx=(0, 8), pady=2)
+        linkedin_btn.bind('<Enter>', lambda _: linkedin_btn.config(bg='#0958A8'))
+        linkedin_btn.bind('<Leave>', lambda _: linkedin_btn.config(bg='#0A66C2'))
+
+        # ── Row 2: subtitle ───────────────────────────────────────────────────
+        row2 = tk.Frame(header, bg=BG)
+        row2.pack(fill='x', pady=(2, 0))
+
+        tk.Label(row2,
+                 text='Compress, Merge, Rearrange & Delete Pages  ·  Offline  ·  Your files never leave your machine',
+                 font=(FF, 9), bg=BG, fg=TXT3).pack(side='left', padx=(36, 0))
+
         if MISSING_LIBS:
             warn = f'⚠  Missing: {", ".join(MISSING_LIBS)}   →   pip install {" ".join(MISSING_LIBS)}'
-            tk.Label(bar, text=warn, font=(FF, 9), bg=BG, fg='#F59E0B').pack(side='right', padx=(0, 14))
+            tk.Label(row2, text=warn, font=(FF, 9), bg=BG, fg='#F59E0B').pack(side='right')
 
     # ── Tab bar ───────────────────────────────────────────────────────────────
 

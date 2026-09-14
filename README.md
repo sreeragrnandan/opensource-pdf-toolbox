@@ -7,6 +7,7 @@
   <img src="https://img.shields.io/badge/Windows-EXE%20Available-0078D4?logo=windows&logoColor=white" alt="Windows EXE"/>
   <img src="https://img.shields.io/badge/GUI-Tkinter-orange" alt="Tkinter"/>
   <img src="https://img.shields.io/badge/status-active-brightgreen" alt="Status"/>
+  <a href="https://www.linkedin.com/in/srnofficial" target="_blank"><img src="https://img.shields.io/badge/LinkedIn-srnofficial-0A66C2?logo=linkedin&logoColor=white" alt="LinkedIn"/></a>
   <a href="https://buymeacoffee.com/sreeragrnandan" target="_blank"><img src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?logo=buy-me-a-coffee&logoColor=black" alt="Buy Me A Coffee"/></a>
 </p>
 
@@ -226,11 +227,15 @@ Distributed under the MIT License. See [`LICENSE`](./LICENSE) for more informati
 
 ## ☕ Support
 
-If you find this project helpful and want to support its development, you can buy me a coffee!
+If you find this project helpful and want to support its development, you can buy me a coffee or connect with me on LinkedIn!
 
 <p align="left">
   <a href="https://buymeacoffee.com/sreeragrnandan" target="_blank">
     <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" width="180"/>
+  </a>
+  &nbsp;&nbsp;
+  <a href="https://www.linkedin.com/in/srnofficial" target="_blank">
+    <img src="https://img.shields.io/badge/Connect%20on%20LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" height="41"/>
   </a>
 </p>
 

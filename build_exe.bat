@@ -28,7 +28,7 @@ if errorlevel 1 (
 :: ?? Build with PyInstaller (output directly to project root) ?
 echo.
 echo [2/3] Building executable (this may take a few minutes)...
-python -m PyInstaller PDF_Toolbox.spec --clean --noconfirm --distpath "%~dp0"
+python -m PyInstaller PDF_Toolbox.spec --clean --noconfirm --distpath "."
 
 if errorlevel 1 (
     echo.
