@@ -16,3 +16,8 @@ desktop.ini
 # Output files & test artifacts
 *.pdf
 !tests/*.pdf
+
+# PyInstaller build artefacts (temp dirs — the root .exe IS tracked)
+build/
+dist/
+*.spec~

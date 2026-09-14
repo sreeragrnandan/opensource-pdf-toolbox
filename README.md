@@ -4,6 +4,7 @@
   <img src="https://img.shields.io/badge/Python-3.9%2B-blue?logo=python&logoColor=white" alt="Python 3.9+"/>
   <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT"/>
   <img src="https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey" alt="Platform"/>
+  <img src="https://img.shields.io/badge/Windows-EXE%20Available-0078D4?logo=windows&logoColor=white" alt="Windows EXE"/>
   <img src="https://img.shields.io/badge/GUI-Tkinter-orange" alt="Tkinter"/>
   <img src="https://img.shields.io/badge/status-active-brightgreen" alt="Status"/>
   <a href="https://buymeacoffee.com/sreeragrnandan" target="_blank"><img src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?logo=buy-me-a-coffee&logoColor=black" alt="Buy Me A Coffee"/></a>
@@ -75,12 +76,33 @@
 
 ## 🚀 Getting Started
 
-### Prerequisites
+### 🖥️ Windows — No install required
+
+A pre-built standalone `.exe` is included in the repository root. Just double-click:
+
+```
+OpenSource PDF Toolbox.exe
+```
+
+> No Python, no pip, no setup needed. Everything is bundled inside.
+
+#### Rebuild the EXE (after code changes)
+
+Double-click **`build_exe.bat`**. It will:
+1. Install / upgrade all dependencies
+2. Build a fresh `OpenSource PDF Toolbox.exe` in the project root
+3. Ask: **"Would you like to add a shortcut to your Desktop? (Y/N)"**
+
+---
+
+### 🐍 Run from source (Windows / macOS / Linux)
+
+#### Prerequisites
 
 - Python **3.9** or higher
 - pip
 
-### Installation
+#### Installation
 
 ```bash
 # 1. Clone the repository
@@ -91,7 +113,7 @@ cd opensource-pdf-toolbox
 pip install -r requirements.txt
 ```
 
-### Run
+#### Run
 
 ```bash
 python pdf_tool_main.py
@@ -120,9 +142,17 @@ python pdf_tool_main.py
 ```
 opensource-pdf-toolbox/
 │
+├── OpenSource PDF Toolbox.exe    # ✅ Pre-built Windows standalone executable
 ├── pdf_tool_main.py              # Main entry point (Tkinter bootstrapping)
-├── Launch PDF Tool Windows.bat   # Windows one-click launcher
-├── Launch PDF Tool Linux Mac.sh    # macOS & Linux launcher script
+├── build_exe.bat                 # One-click EXE builder (with Desktop shortcut prompt)
+├── PDF_Toolbox.spec              # PyInstaller build specification
+├── Launch PDF Tool Windows.bat   # Windows source-mode launcher (requires Python)
+├── Launch PDF Tool Linux Mac.sh  # macOS & Linux launcher script
+│
+├── assets/
+│   ├── icon.ico                  # App icon (Windows .exe & taskbar)
+│   ├── icon.png                  # App icon (PNG format)
+│   └── preview.png               # README screenshot
 │
 ├── core/                         # Core logic & algorithms (headless, zero GUI)
 │   ├── __init__.py               # Core API exports
