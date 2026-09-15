@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-  A lightweight, privacy-focused open-source desktop toolbox to <b>compress</b>, <b>merge</b>, and <b>rearrange & delete pages</b> from PDFs locally with zero cloud dependencies.
+  A lightweight, privacy-focused open-source desktop toolbox to <b>compress</b>, <b>merge</b>, <b>rearrange &amp; delete pages</b>, and <b>remove passwords</b> from PDFs — locally with zero cloud dependencies.
 </p>
 
 ---
@@ -47,6 +47,16 @@
 - **Safe & reversible** — "Reset Order" restores the original page sequence anytime
 - **Live page counter** — displays retained and deleted page counts in real time
 - **Quick preview prompt** — launch your newly organized PDF in the default viewer immediately
+
+### 🔓 Unlock PDF
+
+- **Remove passwords** from owner-protected or user-protected PDFs
+- **Password field with show/hide toggle** — safely enter your password without exposing it
+- **Smart error messages** — clear feedback for wrong passwords or unencrypted files
+- **Drag & drop** — drop the protected PDF directly onto the window
+- **Custom output folder** — save the unlocked file anywhere or next to the original
+- **Output named distinctly** — saved as `<name>_unlocked.pdf` so the original is untouched
+- **Quick preview prompt** — open the unlocked PDF immediately after processing
 
 ### 🛡️ Privacy & Performance
 
@@ -161,7 +171,8 @@ opensource-pdf-toolbox/
 │   ├── utils.py                  # Format utilities, open_path helper
 │   ├── compress.py               # Compression presets & processing
 │   ├── merge.py                  # Multi-file PDF merger
-│   └── rearrange.py              # Page reordering, deletion, and thumbnail engine
+│   ├── rearrange.py              # Page reordering, deletion, and thumbnail engine
+│   └── unlock.py                 # Password removal engine
 │
 ├── ui/                           # User Interface components
 │   ├── __init__.py               # UI module export
@@ -169,6 +180,7 @@ opensource-pdf-toolbox/
 │   ├── compress_tab.py           # Compression tab UI & worker thread
 │   ├── merge_tab.py              # Merge tab UI & worker thread
 │   ├── rearrange_tab.py          # Rearrange & Delete Pages visual grid UI
+│   ├── unlock_tab.py             # Unlock PDF tab UI & worker thread
 │   └── app.py                    # App shell, header, and tab navigation
 │
 ├── requirements.txt              # Python dependencies
