@@ -16,6 +16,7 @@ from ui.theme import (
 from ui.compress_tab import CompressTab
 from ui.merge_tab import MergeTab
 from ui.rearrange_tab import RearrangeTab
+from ui.unlock_tab import UnlockTab
 
 
 class PDFToolsApp:
@@ -54,11 +55,13 @@ class PDFToolsApp:
         self._compress_frame  = tk.Frame(self.root, bg=BG)
         self._merge_frame     = tk.Frame(self.root, bg=BG)
         self._rearrange_frame = tk.Frame(self.root, bg=BG)
+        self._unlock_frame    = tk.Frame(self.root, bg=BG)
 
         # Instantiate tab controllers
         self._compress_tab  = CompressTab(self._compress_frame,   self.root)
         self._merge_tab     = MergeTab(self._merge_frame,         self.root)
         self._rearrange_tab = RearrangeTab(self._rearrange_frame, self.root)
+        self._unlock_tab    = UnlockTab(self._unlock_frame,       self.root)
 
         # Show Compress tab by default
         self._compress_frame.pack(fill='both', expand=True)
@@ -67,6 +70,7 @@ class PDFToolsApp:
         if HAS_DND:
             self._compress_tab._setup_dnd()
             self._rearrange_tab.setup_dnd()
+            self._unlock_tab.setup_dnd()
 
     # ── Header ────────────────────────────────────────────────────────────────
 
@@ -134,7 +138,7 @@ class PDFToolsApp:
         row2.pack(fill='x', pady=(2, 0))
 
         tk.Label(row2,
-                 text='Compress, Merge, Rearrange & Delete Pages  ·  Offline  ·  Your files never leave your machine',
+                 text='Compress · Merge · Rearrange & Delete · Unlock PDF  ·  Offline  ·  Your files never leave your machine',
                  font=(FF, 9), bg=BG, fg=TXT3).pack(side='left', padx=(36, 0))
 
         if MISSING_LIBS:
@@ -149,9 +153,10 @@ class PDFToolsApp:
 
         self._tab_btns: dict = {}
         tabs = [
-            ('compress', '⚡  Compress'),
-            ('merge', '🔗  Merge'),
+            ('compress',  '⚡  Compress'),
+            ('merge',     '🔗  Merge'),
             ('rearrange', '📑  Rearrange & Delete Pages'),
+            ('unlock',    '🔓  Unlock PDF'),
         ]
         for key, label_text in tabs:
             btn = tk.Button(
@@ -185,6 +190,7 @@ class PDFToolsApp:
         self._compress_frame.pack_forget()
         self._merge_frame.pack_forget()
         self._rearrange_frame.pack_forget()
+        self._unlock_frame.pack_forget()
 
         # Show selected frame
         if tab == 'compress':
@@ -193,3 +199,5 @@ class PDFToolsApp:
             self._merge_frame.pack(fill='both', expand=True)
         elif tab == 'rearrange':
             self._rearrange_frame.pack(fill='both', expand=True)
+        elif tab == 'unlock':
+            self._unlock_frame.pack(fill='both', expand=True)
